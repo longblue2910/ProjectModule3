@@ -1,0 +1,246 @@
+﻿
+@model OrderDetailViewModel
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+}
+@if (Model == null)
+{
+    <h2 class="text-danger">Đơn hàng không tồn tại!</h2>
+}
+else
+{
+    @if (Model.OrderStatus == RimMenswearShop.Models.Orders.OrderStatus.Pending)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Đặt hàng thành công, chúng tôi đã nhận được đơn hàng và sẽ giao hàng trong vòng 2 đến 4 ngày tới! Cám ơn quý khách</strong>
+        </div>
+    }
+    <div class="alert alert-info">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <strong>
+                        ID đơn hàng:
+                    </strong>                
+                </div>
+                <div class="col-8">
+                    <strong>
+                        @ViewBag.OrderId
+                    </strong>    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <strong>
+                        Tên khách hàng:
+                    </strong>                   
+                </div>
+                <div class="col-8">
+                    <strong>@Model.CustomerName</strong>                   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    Địa chỉ:
+                </div>
+                <div class="col-8">
+                    @Model.CustomerAddress, @Model.WardName, @Model.DistrictName, @Model.ProvinceName
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    Số điện thoại:
+                </div>
+                <div class="col-8">
+                    @Model.CustomerPhoneNumber
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    Trạng thái đơn hàng:
+                </div>
+                <div class="col-8">
+                    @{
+                        var statusName = string.Empty;
+                        switch (Model.OrderStatus)
+                        {
+                            case RimMenswearShop.Models.Orders.OrderStatus.Pending:
+                                statusName = "Đợi xử lý";
+                                break;
+                            case RimMenswearShop.Models.Orders.OrderStatus.Processing:
+                                statusName = "Đang xử lý";
+                                break;
+                            case RimMenswearShop.Models.Orders.OrderStatus.Completed:
+                                statusName = "Đã hoàn thành";
+                                break;
+                            default:
+                                statusName = "Đã huỷ";
+                                break;
+                        }
+                    }
+                    @statusName
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    Ngày đặt hàng:
+                </div>
+                <div class="col-8">
+                    @Model.OrderTime.ToString("dd/MM/yyyy hh:mm tt")
+                </div>
+            </div>
+            @if (Model.OrderStatus == RimMenswearShop.Models.Orders.OrderStatus.Completed)
+            {
+                <div class="row">
+                    <div class="col-4">
+                        Ngày giao hàng:
+                    </div>
+                    <div class="col-8">
+                        @Model.CompleteTime.ToString("dd/MM/yyyy hh:mm tt")
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-4">
+                    Sản phẩm:
+                </div>
+                <div class="col-8">
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@Model.ProductId">
+                        @Model.ProductName
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <strong>
+                        Giá sản phẩm:
+                    </strong>                 
+                </div>
+                <div class="col-8">
+                    <strong>
+                        @((Model.ProductPrice * Model.Quantity).ToString("#,##0")) VNĐ
+                    </strong>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    Ghi chú:
+                </div>
+                <div class="col-8">
+                    @Model.Note
+                </div>
+            </div>
+        </div>.
+    </div>
+    @*<h2>@ViewBag.Title</h2>
+    <p></p>
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                ID đơn hàng:
+            </div>
+            <div class="col-8">
+                @ViewBag.OrderId
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                Tên khách hàng:
+            </div>
+            <div class="col-8">
+                @Model.CustomerName
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                Địa chỉ:
+            </div>
+            <div class="col-8">
+                @Model.CustomerAddress, @Model.WardName, @Model.DistrictName, @Model.ProvinceName
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                Số điện thoại:
+            </div>
+            <div class="col-8">
+                @Model.CustomerPhoneNumber
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                Trạng thái đơn hàng:
+            </div>
+            <div class="col-8">
+                @{
+                    var statusName = string.Empty;
+                    switch (Model.OrderStatus)
+                    {
+                        case RimMenswearShop.Models.Orders.OrderStatus.Pending:
+                            statusName = "Đợi xử lý";
+                            break;
+                        case RimMenswearShop.Models.Orders.OrderStatus.Processing:
+                            statusName = "Đang xử lý";
+                            break;
+                        case RimMenswearShop.Models.Orders.OrderStatus.Completed:
+                            statusName = "Đã hoàn thành";
+                            break;
+                        default:
+                            statusName = "Đã huỷ";
+                            break;
+                    }
+                }
+                @statusName
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                Ngày đặt hàng:
+            </div>
+            <div class="col-8">
+                @Model.OrderTime.ToString("dd/MM/yyyy hh:mm tt")
+            </div>
+        </div>
+        @if (Model.OrderStatus == RimMenswearShop.Models.Orders.OrderStatus.Completed)
+        {
+            <div class="row">
+                <div class="col-4">
+                    Ngày giao hàng:
+                </div>
+                <div class="col-8">
+                    @Model.CompleteTime.ToString("dd/MM/yyyy hh:mm tt")
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-4">
+                Sản phẩm:
+            </div>
+            <div class="col-8">
+                <a asp-controller="Home" asp-action="Details" asp-route-id="@Model.ProductId">
+                    @Model.ProductName
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                Giá sản phẩm:
+            </div>
+            <div class="col-8">
+                @((Model.ProductPrice * Model.Quantity).ToString("#,##0")) VNĐ
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                Ghi chú:
+            </div>
+            <div class="col-8">
+                @Model.Note
+            </div>
+        </div>
+    </div>*@
+
+
+}
+

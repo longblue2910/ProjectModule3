@@ -1,0 +1,82 @@
+﻿@model List<Item>
+@inject AppDbContext context;
+@{
+    List<Product> products = context.Products.ToList();
+    int totalMoney = 0;
+}
+@if (Model.Count != 0)
+{
+    <section class="ftco-section ftco-cart">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 ftco-animate">
+                    <div class="cart-list">
+                        <table class="table">
+                            <thead class="thead-primary">
+                                <tr class="text-center">
+                                    <th>Sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Hình Ảnh</th>
+                                    <th>Tổng tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        @{ int total = item.Amount * products.Find(e => e.ProductId == item.ProductId).Price;}
+                                        <td>@products.Find(e => e.ProductId == item.ProductId).Name</td>
+                                        <td>@products.Find(e => e.ProductId == item.ProductId).Price</td>
+                                        <td>@item.Amount</td>
+                                        <td>
+                                            <img src="~/images/products/@context.Images.ToList().Find(el =>
+                                                               el.ProductId==products.Find(e =>
+                                                               e.ProductId == item.ProductId).ProductId).ImageName"
+                                                 style="width:50px;height:50px" />
+                                        </td>
+                                        <td>@total.ToString("#,##0")</td>
+                                        @{totalMoney += total; }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5 pt-3 d-flex">
+                <div class="col-md-6 d-flex">
+                    <div class="cart-detail cart-total bg-light p-3 p-md-4">
+                        <h3 class="billing-heading mb-4"></h3>
+                        <hr>
+                        <p class="d-flex total-price">
+                            <span>Tổng tiền</span>
+                            @{var total1 = totalMoney;}
+                            <span>@total1 VNĐ</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="cart-detail bg-light p-3 p-md-4">
+                        <h3 class="billing-heading mb-4">Phương thức thanh toán</h3>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="radio">
+                                    <label><input type="radio" name="optradio" class="mr-2"> Thanh toán khi nhận hàng</label>
+                                </div>
+                            </div>
+                        </div>
+                        <p><a class="btn btn-primary" asp-controller="Orders" asp-action="OrderCart" asp-route-productId="@products.Find(e => e.ProductId == Model[0].ProductId).ProductId">Thanh toán</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>Giỏ hàng trống. </strong>Bạn hãy thêm sản phẩm vào giỏ hàng!
+    </div>
+}
+

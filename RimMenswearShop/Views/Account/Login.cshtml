@@ -1,0 +1,42 @@
+﻿@model LoginViewModel
+@{
+    //Layout = "~/Views/Shared/_Register.cshtml";
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<div style=" padding-top: 40px;" class="row">
+    <h1 style="        color: #0f1d41;
+        font-size: 54px;
+        font-weight: 700;
+        margin: 0px 0;
+        line-height: initial;
+        padding-left: 71px;
+        padding-top: 27px;
+">Đăng nhập</h1>
+    <hr />
+    <div class="col-md-4">
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input placeholder="Email" asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Đăng nhập" class="form-control btn btn-primary1" />
+                <br />
+                <a class="nav-link">Quên mật khẩu?</a>
+                <hr />
+                <a asp-controller="Account" asp-action="Register" class="form-control btn btn-success">Tạo tài khoản mới</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,112 @@
+﻿@model EditUserViewModel
+@{
+    ViewBag.Title = "Tạo tài khoản";
+    var roles = ViewBag.Roles as IQueryable<IdentityRole>;
+}
+<form class="form-signin" enctype="multipart/form-data" asp-controller="User" asp-action="Edit" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input hidden asp-for="UserId" value="@Model.UserId" />
+    <div class="row form-group">
+        <div class="col-md-3">
+            <label asp-for="Email">Email: </label>
+        </div>
+        <div class="col-md-9">
+            <input asp-for="Email" class="form-control" placeholder="Nhập email">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-3">
+            <label asp-for="Phone">Số điện thoại: </label>
+        </div>
+        <div class="col-md-9">
+            <input asp-for="Phone" class="form-control" placeholder="Nhập số điện thoại">
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="row form-group">
+        <div class="col-md-3">
+            <label asp-for="Password">Mật khẩu: </label>
+        </div>
+        <div class="col-md-9">
+            <input asp-for="Password" class="form-control" placeholder="Nhập mật khẩu">
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-3">
+            <label asp-for="ConfirmPassword">Xác nhận mật khẩu: </label>
+        </div>
+        <div class="col-md-9">
+            <input asp-for="ConfirmPassword" class="form-control" placeholder="Xác nhận mật khẩu">
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-3">
+            <label asp-for="City">Tỉnh/Thành: </label>
+        </div>
+        <div class="col-md-9">
+            <input asp-for="City" class="form-control" placeholder="Nhập tỉnh thành">
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-3">
+            <label asp-for="Address">Địa chỉ: </label>
+        </div>
+        <div class="col-md-9">
+            <input asp-for="Address" class="form-control" placeholder="Nhập địa chỉ">
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-3">
+            <label asp-for="RolesID">Vai trò: </label>
+        </div>
+        <div class="col-md-9">
+            <select asp-for="RolesID" class="custom-select">
+                <option value="">Chọn vai trò</option>
+                @if (roles != null && roles.Any())
+                {
+                    foreach (var role in roles)
+                    {
+                        <option value="@role.Id">@role.Name</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-9">
+            <button class="btn btn-dark" onclick="alert('Đã sửa thông tin thành viên')" type="submit">Lưu</button>
+            <button type="button" class="btn btn-dark mx-2" data-toggle="modal" data-target="#removeUserModal">
+                Xoá
+            </button>
+        </div>
+    </div>
+</form>
+<div class="modal fade" id="removeUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Xóa thành viên</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn xóa thành viên này khỏi hệ thống?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Huỷ</button>
+                <a asp-controller="User" asp-action="Remove" onclick="alert('Xóa thành viên thành công')" asp-route-id="@Model.UserId" class="btn btn-dark">Xác nhận</a>
+            </div>
+        </div>
+    </div>
+</div>

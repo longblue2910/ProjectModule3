@@ -1,0 +1,127 @@
+﻿@inject AppDbContext context;
+@model RimMenswearShop.ViewsModel.ProductDetailViewModel
+@{
+    ViewBag.Title = $"{Model.Name}";
+    var brands = ViewBag.Brands as List<Brand>;
+    var categories = ViewBag.Categories as List<Category>;
+    var brand = ViewBag.Brand;
+    var categorie = ViewBag.Category;
+    var images = ViewBag.Images as List<Image>;
+    var product = ViewBag.Product as Product;
+    var relatedProducts = ViewBag.RelatedProducts as IEnumerable<Product>;
+}
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-5 ftco-animate">
+                @{
+                    if (images.Count != 0)
+                    {
+                        <div>
+                            <a href="~/images/products/@images[0].ImageName" data-toggle="lightbox" data-gallery="productImages" data-title="@Model.Name hình 1">
+                                <img src="~/images/products/@images[0].ImageName" class="img-fluid my-3" style="max-height: 350px; max-width: 100%" />
+                            </a>
+                        </div>
+                        <div class="row">
+                            <div class="mx-auto">
+                                @for (var i = 1; i < images.Count; i++)
+                                {
+                                    <a class="my-2 mx-1" href="~/images/products/@images[i].ImageName" data-toggle="lightbox" data-gallery="productImages" data-title="@Model.Name hình @(i + 1)">
+                                        <img src="~/images/products/@images[i].ImageName" height="60" />
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="col-lg-8 product-details pl-md-5 ftco-animate">
+                <h3>@Model.Name</h3>
+                <div class="rating d-flex">
+                    <p class="text-left mr-4">
+                        <a href="#" class="mr-2">5.0</a>
+                        <a href="#"><span class="ion-ios-star-outline"></span></a>
+                        <a href="#"><span class="ion-ios-star-outline"></span></a>
+                        <a href="#"><span class="ion-ios-star-outline"></span></a>
+                        <a href="#"><span class="ion-ios-star-outline"></span></a>
+                        <a href="#"><span class="ion-ios-star-outline"></span></a>
+                    </p>
+                </div>
+                <p class="price"><span>@Model.Price.ToString("#,##0") ₫ </span></p>
+                <p>@Html.Raw(Model.Description)</p>
+                <div class="row mt-4">
+                    <div class="w-100"></div>
+                    <div class="w-100"></div>
+                    <div class="col-md-12">
+                        <p style="color: #000;">Hàng có sẵn : @Model.Remain</p>
+                    </div>
+                </div>
+                @if (Model.Remain != 0)
+                {
+                    <p><a asp-controller="Orders" asp-action="Order" asp-route-id="@Model.ProductId" class="btn btn-black py-3 px-5">Mua ngay</a></p>
+                }
+                else
+                {
+                    <div class="btn btn-secondary p-3">Hết hàng!</div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container">
+    <div class="row justify-content-center mb-3 pb-3">
+        <div class="col-md-12 heading-section text-center ftco-animate">
+            <hr />
+            <h3 style="text-align: center;"><span style="color: #000000;"><strong class="text-uppercase">Sản phẩm tương tự</strong></span></h3>
+        </div>
+    </div>
+</div>
+@if(relatedProducts != null)
+{
+    <div class="container">
+        <div class="row reponsive">
+            @foreach (var products1 in relatedProducts)
+            {
+                <div class="col-sm col-md-6 col-lg ftco-animate">
+                    <div class="product rounded my-3 bg-transparent py-2">
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@products1.ProductId" class="img-prod">
+                            @{
+                                var productImages = (from e in context.Images
+                                                     where e.ProductId == products1.ProductId
+                                                     select e).ToList();
+                                if (productImages.Count != 0)
+                                {
+                                    <img src="~/images/products/@productImages[0].ImageName" alt="@products1.Name" style="height: 150px; max-width: 90%;" class="mx-auto d-block">
+                                }
+                            }
+                        </a>
+                        <div class="text py-3 px-3">
+                            <h3>
+                                <a asp-controller="Home" asp-action="Details" asp-route-id="@products1.ProductId">
+                                    @products1.Name
+                                </a>
+                            </h3>
+                            <div class="d-flex">
+                                <div class="pricing">
+                                    <p class="price"><span class="price-sale">@products1.Price.ToString("#,##0") đ</span></p>
+                                </div>
+                            </div>
+                            <p class="bottom-area d-flex px-3">
+                                <a href="javascript:void(0)" onclick="CustomerCart.AddItem('@products1.ProductId')" class="add-to-cart text-center py-2 mr-1"><span>Thêm vào giỏ hàng<i class="ion-ios-add ml-1"></i></span></a>
+
+                                <a asp-controller="Orders" asp-action="Order" asp-route-id="@products1.ProductId" class="buy-now text-center py-2">Mua ngay<span><i class="ion-ios-cart ml-1"></i></span></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+}
+
+<script src="~/js/CartCustomer.js"></script>
+
+
+

@@ -1,0 +1,64 @@
+﻿@model ContactViewModel
+@{
+    ViewData["Title"] = "Thông tin liên hệ";
+}
+
+<section class="ftco-section contact-section bg-light">
+    <div class="container">
+        <div class="row d-flex mb-5 contact-info">
+            <div class="w-100"></div>
+            <div class="col-md-3 d-flex">
+                <div class="info bg-white p-4">
+                    <p><span>Địa chỉ: </span>27 Ngự Bình, Phường An Cựu, TP Huế</p>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex">
+                <div class="info bg-white p-4">
+                    <p><span>Phone: </span> <a href="#">+ 098 333 6103</a></p>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex">
+                <div class="info bg-white p-4">
+                    <p><span>Email:</span> <a href="mailto:rimaccessories@gmail.com">rimaccessories@gmail.com</a></p>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex">
+                <div class="info bg-white p-4">
+                    <p><span>Website</span> <a href="#">rimaccessories.com</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="row block-9">
+            <div class="col-md-6 order-md-last d-flex">
+                <form asp-controller="Home" asp-action="Contact" method="post" class="bg-white p-5 contact-form">
+                    <div class="form-group">
+                        <input asp-for="Name" class="form-control" placeholder="Họ tên">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="Email" class="form-control" placeholder="Email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" asp-for="Subject" class="form-control" placeholder="Chủ đề">
+                        <span asp-validation-for="Subject" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <textarea asp-for="Message" cols="30" rows="7" class="form-control" placeholder="Tin nhắn"></textarea>
+                        <span asp-validation-for="Message" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Gửi" onclick="alert('Gửi thông tin thành công')" class="btn btn-primary py-3 px-5">
+
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="col-md-6 d-flex">
+                <div id="map" class="bg-white"></div>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,42 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Đăng kí";
+}
+
+<div style=" padding-top: 40px;" class="row">
+    <h1 style="color: #0f1d41;
+        font-size: 54px;
+        font-weight: 700;
+        margin: 0px 0;
+        line-height: initial;
+        padding-left: 110px;
+        ;
+        padding-top: 42px;">
+        Đăng ký
+    </h1>
+    <hr />
+    <div class="col-md-4">
+        <form asp-action="Register">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input placeholder="Email" asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input placeholder="Mật khẩu" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input placeholder="Xác nhận mật khẩu" asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" onclick="alert('Tạo tài khoản thành công !')" value="Đăng ký" class="form-control btn btn-primary1" />
+                <br />
+                <a class="nav-link">Quên mật khẩu?</a>
+                <hr />
+                <a asp-controller="Account" asp-action="Login" class="form-control btn btn-success">Đăng nhập</a>
+            </div>
+        </form>
+    </div>
+</div>

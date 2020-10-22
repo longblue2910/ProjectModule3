@@ -1,0 +1,59 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>c9b179c1-add8-47d6-a3b6-0ee254ec516c</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200922032034_AlterTableUser.cs" />
+    <Compile Remove="Migrations\20200922032034_AlterTableUser.Designer.cs" />
+    <Compile Remove="Migrations\20200922032140_AlterTableUser.cs" />
+    <Compile Remove="Migrations\20200922032140_AlterTableUser.Designer.cs" />
+    <Compile Remove="Migrations\20200922033602_CreateAddressTable.cs" />
+    <Compile Remove="Migrations\20200922033602_CreateAddressTable.Designer.cs" />
+    <Compile Remove="Migrations\20200922033733_RelationshipProvinceDistrict.cs" />
+    <Compile Remove="Migrations\20200922033733_RelationshipProvinceDistrict.Designer.cs" />
+    <Compile Remove="Migrations\20200922033826_RelationshipAddress.cs" />
+    <Compile Remove="Migrations\20200922033826_RelationshipAddress.Designer.cs" />
+    <Compile Remove="Migrations\20200922034127_RelationshipProvinceDistrict.cs" />
+    <Compile Remove="Migrations\20200922034127_RelationshipProvinceDistrict.Designer.cs" />
+    <Compile Remove="Migrations\20200922034217_RelationshipAddress.cs" />
+    <Compile Remove="Migrations\20200922034217_RelationshipAddress.Designer.cs" />
+    <Compile Remove="Migrations\20200922035144_AlterTableUsers.cs" />
+    <Compile Remove="Migrations\20200922035144_AlterTableUsers.Designer.cs" />
+    <Compile Remove="Migrations\20200929010625_AlterTableOrder.cs" />
+    <Compile Remove="Migrations\20200929010625_AlterTableOrder.Designer.cs" />
+    <Compile Remove="Migrations\20200929093835_AddColumnNameForUser.cs" />
+    <Compile Remove="Migrations\20200929093835_AddColumnNameForUser.Designer.cs" />
+    <Compile Remove="Migrations\20200929100549_check.cs" />
+    <Compile Remove="Migrations\20200929100549_check.Designer.cs" />
+    <Compile Remove="Migrations\20200929131904_ExtendTableUser.cs" />
+    <Compile Remove="Migrations\20200929131904_ExtendTableUser.Designer.cs" />
+    <Compile Remove="Migrations\20200929132307_ExtendTableUsers.cs" />
+    <Compile Remove="Migrations\20200929132307_ExtendTableUsers.Designer.cs" />
+    <Compile Remove="Migrations\20200929132443_ExtendsTableUsers.cs" />
+    <Compile Remove="Migrations\20200929132443_ExtendsTableUsers.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\users\" />
+    <Folder Include="wwwroot\images\products\" />
+  </ItemGroup>
+
+</Project>

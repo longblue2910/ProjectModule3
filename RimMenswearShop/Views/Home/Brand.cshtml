@@ -1,0 +1,45 @@
+﻿@inject AppDbContext context
+@model List<Product>
+@{
+    ViewBag.Title = $"Thương hiệu {ViewBag.title}";
+}
+
+<div class="row reponsive">
+    @foreach (var product in Model)
+    {
+        <div class="col-sm col-md-6 col-lg ftco-animate">
+            <div class="product rounded my-3 bg-transparent py-2">
+                <a asp-controller="Home" asp-action="Details" asp-route-id="@product.ProductId" class="img-prod">
+                    @{
+                        var productImages = (from e in context.Images
+                                             where e.ProductId == product.ProductId
+                                             select e).ToList();
+                        if (productImages.Count != 0)
+                        {
+                            <img src="~/images/products/@productImages[0].ImageName" alt="@product.Name" style="height: 150px; max-width: 90%;" class="mx-auto d-block">
+                        }
+                    }
+                </a>
+                <div class="text py-3 px-3">
+                    <h3>
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@product.ProductId">
+                            @product.Name
+                        </a>
+                    </h3>
+                    <div class="d-flex">
+                        <div class="pricing">
+                            <p class="price"><span class="price-sale">@product.Price.ToString("#,##0") đ</span></p>
+                        </div>
+                    </div>
+                    <p class="bottom-area d-flex px-3">
+                        <a href="javascript:void(0)" onclick="CustomerCart.AddItem('@product.ProductId')" class="add-to-cart text-center py-2 mr-1"><span>Thêm vào giỏ hàng<i class="ion-ios-add ml-1"></i></span></a>
+
+                        <a asp-controller="Orders" asp-action="Buy" asp-route-id="@product.ProductId" class="buy-now text-center py-2">Mua ngay<span><i class="ion-ios-cart ml-1"></i></span></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script src="~/js/CartCustomer.js"></script>
+

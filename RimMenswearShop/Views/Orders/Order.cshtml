@@ -1,0 +1,161 @@
+﻿@model CustomerViewModel
+
+@inject AppDbContext context;
+
+@{
+    ViewBag.Title = "Thông tin đặt hàng - ";
+    var product = ViewBag.Product as Product;
+    int PriceProduct = context.Products.FirstOrDefault(el => el.ProductId == Model.ProductId).Price;
+}
+<form enctype="multipart/form-data" asp-controller="Orders" asp-action="Order" method="post" class="billing-form">
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-8 ftco-animate">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input hidden asp-for="ProductId" value="@product.ProductId" />
+                    <input type="hidden" value="@PriceProduct" id="PriceProduct" />
+                    <h3 class="mb-4 billing-heading">Thông tin đặt hàng</h3>
+                    <div class="row align-items-end">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Name">Họ tên</label>
+                                <input asp-for="Name" class="form-control" placeholder="Họ tên">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="PhoneNumber">Số điện thoại</label>
+                                <input asp-for="PhoneNumber" type="text" class="form-control" placeholder="Số điện thoại">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for=" ProvinceId">Tỉnh/Thành</label>
+                                <div class="select-wrap">
+                                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                    <select asp-for="ProvinceId" asp-items="@(new SelectList(Model.Provinces, "id", "_name"))"
+                                            onchange="create.changeProvince(this.value)" class="form-control">
+                                    </select>
+                                </div>
+                                <span asp-validation-for="ProvinceId" class=" text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for=" DistrictId">Quận/Huyện</label>
+                                <div class="select-wrap">
+                                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                    <select asp-for="DistrictId" onchange="create.changeDistrict(this.value)" class="form-control"></select>
+                                </div>
+                                <span asp-validation-for="DistrictId" class=" text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for=" WardId">Phường/Xã</label>
+                                <div class="select-wrap">
+                                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                    <select asp-for=" WardId" class="form-control"></select>
+                                </div>
+                                <span asp-validation-for="WardId" class=" text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Address">Địa chỉ</label>
+                                <input asp-for="Address" type="text" class="form-control" placeholder="Địa chỉ nhận hàng">
+                            </div>
+                        </div>                      
+                        </div>
+                    </div>
+                    <div class="row mt-5 pt-3 d-flex">
+                        <div class="col-md-6 d-flex">
+                            <div class="cart-detail cart-total bg-light p-3 p-md-4">
+                                <h3 class="billing-heading mb-4">Thông tin sản phẩm</h3>
+                                <p class="d-flex">
+                                    <span>Sản phẩm</span>
+                                    <span><a asp-controller="Home" asp-action="Details" asp-route-id="@product.ProductId" target="_blank">@product.Name</a></span>
+                                </p>
+                                <p class="d-flex">
+                                    <span>Số lượng</span>
+                                    <span>
+                                        <input asp-for="Quantity" autocomplete="off" class="form-control" oninput="plus()" onchange="plus()" value="1" min="1" style="height:25px; width:80px; text-align: center" id="Quantity">
+                                    </span>
+                                </p>
+                                <p class="d-flex total-price">
+                                    <span>Tổng tiền</span>
+                                    <span id="Total">@product.Price.ToString("#,##0") ₫</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="cart-detail bg-light p-3 p-md-4">
+                                <h3 class="billing-heading mb-4">Phương thức thanh toán</h3>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="radio">
+                                            <label><input type="radio" name="optradio" class="mr-2">Thanh toán khi nhận hàng</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p><button type="submit" class="btn btn-primary py-3 px-4">Đặt hàng</button></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+@section ValidateScript
+{
+    <environment include="Development">
+        <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    </environment>
+}
+
+@section Scripts{
+    <script>
+        $(".custom-file-input").on("change",
+            function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
+        $('#i_file').change(function (event) {
+            $("#profilePicture").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
+        });
+    </script>
+    <script>
+        var i = 1;
+        function plus() {
+            $("#Total").html((parseInt($("#Quantity").val(), 10) * parseInt($("#PriceProduct").val(), 10)).toLocaleString('vi', { style: 'currency', currency: 'VND' }));
+        }
+    </script>
+    @*<script>
+        var i = 1;
+        function plus() {
+            i++;
+            document.getElementById('Quantity').value = i;
+            $("#Total").html(parseInt($("#Quantity").val(), 10) * parseInt($("#PriceProduct").val(), 10));
+        }
+        function del() {
+            if (i >= 2) {
+                i--;
+                document.getElementById('Quantity').value = i;
+                $("#Total").html(parseInt($("#Total").text(), 10) - parseInt($("#PriceProduct").val(), 10));
+            }
+        }
+    </script>*@
+    <script src="~/js/create.js"></script>
+}
